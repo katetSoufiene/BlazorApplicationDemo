@@ -10,29 +10,28 @@ using System.Threading.Tasks;
 
 namespace BlazorServer.Pages
 {
-
     public class EditEmployeeBase : ComponentBase
     {
         [Inject]
+        public IMapper Mapper { get; set; }
+
+        [Inject]
         public IEmployeeService EmployeeService { get; set; }
+
+        [Inject]
+        public IDepartmentService DepartmentService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
+        [Parameter]
+        public string Id { get; set; }
 
         private Employee Employee { get; set; } = new Employee();
 
         public EditEmployeeModel EditEmployeeModel { get; set; } = new EditEmployeeModel();
 
-        [Inject]
-        public IDepartmentService DepartmentService { get; set; }
-
         public List<Department> Departments { get; set; } = new List<Department>();
-
-        [Parameter]
-        public string Id { get; set; }
-
-        [Inject]
-        public IMapper Mapper { get; set; }
-
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
 
         public string PageHeader { get; set; }
 
@@ -45,7 +44,6 @@ namespace BlazorServer.Pages
             {
                 PageHeader = "Edit Employee";
                 Employee = await EmployeeService.GetEmployee(int.Parse(Id));
-               
             }
             else
             {
@@ -65,7 +63,7 @@ namespace BlazorServer.Pages
         {
             Mapper.Map(EditEmployeeModel, Employee);
 
-            Employee result = null;
+            Employee result;
 
             if (Employee.Id != 0)
             {
@@ -91,9 +89,10 @@ namespace BlazorServer.Pages
                 NavigationManager.NavigateTo("/");
             }
         }
+        
         protected void Delete_Click()
         {
-            DeleteConfirmation.Show();          
+            DeleteConfirmation.Show();
         }
     }
 

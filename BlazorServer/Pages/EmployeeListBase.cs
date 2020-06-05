@@ -12,13 +12,12 @@ namespace BlazorServer.Pages
     {
         [Inject]
         public IEmployeeService EmployeeService { get; set; }
-
         public IEnumerable<Employee> Employees { get; set; }
         protected override async Task OnInitializedAsync()
         {
             Employees = (await EmployeeService.GetEmployees()).ToList();
         }
-        
+
         protected async Task EmployeeDeleted()
         {
             Employees = (await EmployeeService.GetEmployees()).ToList();
