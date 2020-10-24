@@ -24,7 +24,5 @@ namespace BlazorServer.Services
         {
             return await httpClient.GetJsonAsync<Department[]>("api/departments");
         }
-
-      
     }
 }
